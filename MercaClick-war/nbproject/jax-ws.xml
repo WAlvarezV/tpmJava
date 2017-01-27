@@ -4,6 +4,12 @@
     <service name="ServicioInventario">
       <implementation-class>servicios.ServicioInventario</implementation-class>
     </service>
+    <service name="ServicioFacturacion">
+      <implementation-class>servicios.ServicioFacturacion</implementation-class>
+    </service>
+    <service name="ServicioUbicacion">
+      <implementation-class>servicios.ServicioUbicacion</implementation-class>
+    </service>
   </services>
   <clients/>
 </jax-ws>

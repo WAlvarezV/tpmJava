@@ -461,7 +461,7 @@ public class ConvenioDao {
      * @param conn         This method requires working database connection.
      * @param stmt         This parameter contains the SQL statement to be excuted.
      */
-    protected List listQuery(Connection conn, PreparedStatement stmt) throws SQLException {
+    public List listQuery(Connection conn, PreparedStatement stmt) throws SQLException {
 
           ArrayList searchResults = new ArrayList();
           ResultSet result = null;

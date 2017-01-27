@@ -28,6 +28,7 @@ public class Constantes {
      * Nombre de tablas que tienen SECUENCIAS
      */
     public static final String CIUDAD = "CIUDAD";
+    public static final String CONVENIO = "CONVENIO";
     public static final String CUENTA_COBRO = "CUENTA_COBRO";
     public static final String DEPARTAMENTO = "DEPARTAMENTO";
     public static final String DESCUENTO = "DESCUENTO";
@@ -35,9 +36,11 @@ public class Constantes {
     public static final String DIRECCION = "DIRECCION";
     public static final String DIRECCION_PERSONA = "DIRECCION_PERSONA";
     public static final String EMPRESA = "EMPRESA";
+    public static final String EMPRESA_PERSONA = "EMPRESA_PERSONA";
     public static final String FACTURA = "FACTURA";
     public static final String MEDIO_PAGO = "MEDIO_PAGO";
     public static final String ORDEN_PAGO = "ORDEN_PAGO";
+    public static final String PERMISO_USR = "PERMISO_USR";
     public static final String PERSONA = "PERSONA";
     public static final String PRODUCTO = "PRODUCTO";
     public static final String PROMOCION = "PROMOCION";
@@ -45,7 +48,7 @@ public class Constantes {
     public static final String STOCK = "STOCK";
     public static final String TIPO_DATO = "TIPO_DATO";
     public static final String USUARIO = "USUARIO";
-    public static final String VINCULO_EMPRESA_PERSONA = "VINCULO_EMPRESA_PERSONA";
+    
 
     /**
      * Signo
