@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo.datos.objetos.inventario;
+package modelo.datos.objetos.facturacion;
 
 import java.io.*;
 import java.sql.*;
@@ -11,8 +11,8 @@ import java.util.*;
 import java.math.*;
 
  /**
-  * Producto Value Object.
-  * This class is value object representing database table PRODUCTO
+  * DetalleFactura Value Object.
+  * This class is value object representing database table DETALLE_FACTURA
   * This class is intented to be used together with associated Dao object.
   */
 
@@ -36,21 +36,19 @@ import java.math.*;
 
 
 
-public class Producto implements Cloneable, Serializable {
+public class DetalleFactura implements Cloneable, Serializable {
 
     /** 
      * Persistent Instance variables. This data is directly 
      * mapped to the columns of database table.
      */
+    private int ID_DETALLE_FACTURA;
+    private int ID_FACTURA;
     private int ID_PRODUCTO;
-    private int SUBCATEGORIA;
-    private int MARCA;
-    private String MODELO;
-    private String DESCRIPCION;
-    private String SERIAL;
-    private String CODIGO_BARRAS;
-    private double VALOR;
+    private double CANTIDAD;
+    private double VALOR_VENTA;
     private double IMPUESTO;
+    private double SUBTOTAL;
     private int ANULADO;
 
 
@@ -62,13 +60,13 @@ public class Producto implements Cloneable, Serializable {
      * argument, which is the primary key of the corresponding table.
      */
 
-    public Producto () {
+    public DetalleFactura () {
 
     }
 
-    public Producto (int ID_PRODUCTOIn) {
+    public DetalleFactura (int ID_DETALLE_FACTURAIn) {
 
-          this.ID_PRODUCTO = ID_PRODUCTOIn;
+          this.ID_DETALLE_FACTURA = ID_DETALLE_FACTURAIn;
 
     }
 
@@ -79,6 +77,20 @@ public class Producto implements Cloneable, Serializable {
      * so these might require some manual additions.
      */
 
+    public int getID_DETALLE_FACTURA() {
+          return this.ID_DETALLE_FACTURA;
+    }
+    public void setID_DETALLE_FACTURA(int ID_DETALLE_FACTURAIn) {
+          this.ID_DETALLE_FACTURA = ID_DETALLE_FACTURAIn;
+    }
+
+    public int getID_FACTURA() {
+          return this.ID_FACTURA;
+    }
+    public void setID_FACTURA(int ID_FACTURAIn) {
+          this.ID_FACTURA = ID_FACTURAIn;
+    }
+
     public int getID_PRODUCTO() {
           return this.ID_PRODUCTO;
     }
@@ -86,53 +98,18 @@ public class Producto implements Cloneable, Serializable {
           this.ID_PRODUCTO = ID_PRODUCTOIn;
     }
 
-    public int getSUBCATEGORIA() {
-          return this.SUBCATEGORIA;
+    public double getCANTIDAD() {
+          return this.CANTIDAD;
     }
-    public void setSUBCATEGORIA(int SUBCATEGORIAIn) {
-          this.SUBCATEGORIA = SUBCATEGORIAIn;
-    }
-
-    public int getMARCA() {
-          return this.MARCA;
-    }
-    public void setMARCA(int MARCAIn) {
-          this.MARCA = MARCAIn;
+    public void setCANTIDAD(double CANTIDADIn) {
+          this.CANTIDAD = CANTIDADIn;
     }
 
-    public String getMODELO() {
-          return this.MODELO;
+    public double getVALOR_VENTA() {
+          return this.VALOR_VENTA;
     }
-    public void setMODELO(String MODELOIn) {
-          this.MODELO = MODELOIn;
-    }
-
-    public String getDESCRIPCION() {
-          return this.DESCRIPCION;
-    }
-    public void setDESCRIPCION(String DESCRIPCIONIn) {
-          this.DESCRIPCION = DESCRIPCIONIn;
-    }
-
-    public String getSERIAL() {
-          return this.SERIAL;
-    }
-    public void setSERIAL(String SERIALIn) {
-          this.SERIAL = SERIALIn;
-    }
-
-    public String getCODIGO_BARRAS() {
-          return this.CODIGO_BARRAS;
-    }
-    public void setCODIGO_BARRAS(String CODIGO_BARRASIn) {
-          this.CODIGO_BARRAS = CODIGO_BARRASIn;
-    }
-
-    public double getVALOR() {
-          return this.VALOR;
-    }
-    public void setVALOR(double VALORIn) {
-          this.VALOR = VALORIn;
+    public void setVALOR_VENTA(double VALOR_VENTAIn) {
+          this.VALOR_VENTA = VALOR_VENTAIn;
     }
 
     public double getIMPUESTO() {
@@ -140,6 +117,13 @@ public class Producto implements Cloneable, Serializable {
     }
     public void setIMPUESTO(double IMPUESTOIn) {
           this.IMPUESTO = IMPUESTOIn;
+    }
+
+    public double getSUBTOTAL() {
+          return this.SUBTOTAL;
+    }
+    public void setSUBTOTAL(double SUBTOTALIn) {
+          this.SUBTOTAL = SUBTOTALIn;
     }
 
     public int getANULADO() {
@@ -159,75 +143,53 @@ public class Producto implements Cloneable, Serializable {
      * individual set-methods.
      */
 
-    public void setAll(int ID_PRODUCTOIn,
-          int SUBCATEGORIAIn,
-          int MARCAIn,
-          String MODELOIn,
-          String DESCRIPCIONIn,
-          String SERIALIn,
-          String CODIGO_BARRASIn,
-          double VALORIn,
+    public void setAll(int ID_DETALLE_FACTURAIn,
+          int ID_FACTURAIn,
+          int ID_PRODUCTOIn,
+          double CANTIDADIn,
+          double VALOR_VENTAIn,
           double IMPUESTOIn,
+          double SUBTOTALIn,
           int ANULADOIn) {
+          this.ID_DETALLE_FACTURA = ID_DETALLE_FACTURAIn;
+          this.ID_FACTURA = ID_FACTURAIn;
           this.ID_PRODUCTO = ID_PRODUCTOIn;
-          this.SUBCATEGORIA = SUBCATEGORIAIn;
-          this.MARCA = MARCAIn;
-          this.MODELO = MODELOIn;
-          this.DESCRIPCION = DESCRIPCIONIn;
-          this.SERIAL = SERIALIn;
-          this.CODIGO_BARRAS = CODIGO_BARRASIn;
-          this.VALOR = VALORIn;
+          this.CANTIDAD = CANTIDADIn;
+          this.VALOR_VENTA = VALOR_VENTAIn;
           this.IMPUESTO = IMPUESTOIn;
+          this.SUBTOTAL = SUBTOTALIn;
           this.ANULADO = ANULADOIn;
     }
 
 
     /** 
-     * hasEqualMapping-method will compare two Producto instances
+     * hasEqualMapping-method will compare two DetalleFactura instances
      * and return true if they contain same values in all persistent instance 
      * variables. If hasEqualMapping returns true, it does not mean the objects
      * are the same instance. However it does mean that in that moment, they 
      * are mapped to the same row in database.
      */
-    public boolean hasEqualMapping(Producto valueObject) {
+    public boolean hasEqualMapping(DetalleFactura valueObject) {
 
+          if (valueObject.getID_DETALLE_FACTURA() != this.ID_DETALLE_FACTURA) {
+                    return(false);
+          }
+          if (valueObject.getID_FACTURA() != this.ID_FACTURA) {
+                    return(false);
+          }
           if (valueObject.getID_PRODUCTO() != this.ID_PRODUCTO) {
                     return(false);
           }
-          if (valueObject.getSUBCATEGORIA() != this.SUBCATEGORIA) {
+          if (valueObject.getCANTIDAD() != this.CANTIDAD) {
                     return(false);
           }
-          if (valueObject.getMARCA() != this.MARCA) {
-                    return(false);
-          }
-          if (this.MODELO == null) {
-                    if (valueObject.getMODELO() != null)
-                           return(false);
-          } else if (!this.MODELO.equals(valueObject.getMODELO())) {
-                    return(false);
-          }
-          if (this.DESCRIPCION == null) {
-                    if (valueObject.getDESCRIPCION() != null)
-                           return(false);
-          } else if (!this.DESCRIPCION.equals(valueObject.getDESCRIPCION())) {
-                    return(false);
-          }
-          if (this.SERIAL == null) {
-                    if (valueObject.getSERIAL() != null)
-                           return(false);
-          } else if (!this.SERIAL.equals(valueObject.getSERIAL())) {
-                    return(false);
-          }
-          if (this.CODIGO_BARRAS == null) {
-                    if (valueObject.getCODIGO_BARRAS() != null)
-                           return(false);
-          } else if (!this.CODIGO_BARRAS.equals(valueObject.getCODIGO_BARRAS())) {
-                    return(false);
-          }
-          if (valueObject.getVALOR() != this.VALOR) {
+          if (valueObject.getVALOR_VENTA() != this.VALOR_VENTA) {
                     return(false);
           }
           if (valueObject.getIMPUESTO() != this.IMPUESTO) {
+                    return(false);
+          }
+          if (valueObject.getSUBTOTAL() != this.SUBTOTAL) {
                     return(false);
           }
           if (valueObject.getANULADO() != this.ANULADO) {
@@ -246,17 +208,15 @@ public class Producto implements Cloneable, Serializable {
      */
     public String toString() {
         StringBuffer out = new StringBuffer(this.getDaogenVersion());
-        out.append("\nclass Producto, mapping to table PRODUCTO\n");
+        out.append("\nclass DetalleFactura, mapping to table DETALLE_FACTURA\n");
         out.append("Persistent attributes: \n"); 
+        out.append("ID_DETALLE_FACTURA = " + this.ID_DETALLE_FACTURA + "\n"); 
+        out.append("ID_FACTURA = " + this.ID_FACTURA + "\n"); 
         out.append("ID_PRODUCTO = " + this.ID_PRODUCTO + "\n"); 
-        out.append("SUBCATEGORIA = " + this.SUBCATEGORIA + "\n"); 
-        out.append("MARCA = " + this.MARCA + "\n"); 
-        out.append("MODELO = " + this.MODELO + "\n"); 
-        out.append("DESCRIPCION = " + this.DESCRIPCION + "\n"); 
-        out.append("SERIAL = " + this.SERIAL + "\n"); 
-        out.append("CODIGO_BARRAS = " + this.CODIGO_BARRAS + "\n"); 
-        out.append("VALOR = " + this.VALOR + "\n"); 
+        out.append("CANTIDAD = " + this.CANTIDAD + "\n"); 
+        out.append("VALOR_VENTA = " + this.VALOR_VENTA + "\n"); 
         out.append("IMPUESTO = " + this.IMPUESTO + "\n"); 
+        out.append("SUBTOTAL = " + this.SUBTOTAL + "\n"); 
         out.append("ANULADO = " + this.ANULADO + "\n"); 
         return out.toString();
     }
@@ -269,21 +229,15 @@ public class Producto implements Cloneable, Serializable {
      * will also have all its attributes cloned.
      */
     public Object clone() {
-        Producto cloned = new Producto();
+        DetalleFactura cloned = new DetalleFactura();
 
+        cloned.setID_DETALLE_FACTURA(this.ID_DETALLE_FACTURA); 
+        cloned.setID_FACTURA(this.ID_FACTURA); 
         cloned.setID_PRODUCTO(this.ID_PRODUCTO); 
-        cloned.setSUBCATEGORIA(this.SUBCATEGORIA); 
-        cloned.setMARCA(this.MARCA); 
-        if (this.MODELO != null)
-             cloned.setMODELO(new String(this.MODELO)); 
-        if (this.DESCRIPCION != null)
-             cloned.setDESCRIPCION(new String(this.DESCRIPCION)); 
-        if (this.SERIAL != null)
-             cloned.setSERIAL(new String(this.SERIAL)); 
-        if (this.CODIGO_BARRAS != null)
-             cloned.setCODIGO_BARRAS(new String(this.CODIGO_BARRAS)); 
-        cloned.setVALOR(this.VALOR); 
+        cloned.setCANTIDAD(this.CANTIDAD); 
+        cloned.setVALOR_VENTA(this.VALOR_VENTA); 
         cloned.setIMPUESTO(this.IMPUESTO); 
+        cloned.setSUBTOTAL(this.SUBTOTAL); 
         cloned.setANULADO(this.ANULADO); 
         return cloned;
     }
@@ -299,3 +253,4 @@ public class Producto implements Cloneable, Serializable {
     }
 
 }
+

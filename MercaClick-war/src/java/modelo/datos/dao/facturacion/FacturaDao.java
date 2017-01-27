@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo.datos.dao.inventario;
+package modelo.datos.dao.facturacion;
 
 import java.sql.*;
 import java.util.*;
 import java.math.*;
+import modelo.datos.objetos.facturacion.Factura;
 import modelo.datos.dao.NotFoundException;
-import modelo.datos.objetos.inventario.Producto;
 
 
  /**
-  * Producto Data Access Object (DAO).
+  * Factura Data Access Object (DAO).
   * This class contains all database handling that is needed to 
-  * permanently store and retrieve Producto object instances. 
+  * permanently store and retrieve Factura object instances. 
   */
 
  /**
@@ -38,7 +38,7 @@ import modelo.datos.objetos.inventario.Producto;
 
 
 
-public class ProductoDao {
+public class FacturaDao {
 
 
 
@@ -50,8 +50,8 @@ public class ProductoDao {
      * NOTE: If you extend the valueObject class, make sure to override the
      * clone() method in it!
      */
-    public Producto createValueObject() {
-          return new Producto();
+    public Factura createValueObject() {
+          return new Factura();
     }
 
 
@@ -61,10 +61,10 @@ public class ProductoDao {
      * for the real load-method which accepts the valueObject as a parameter. Returned
      * valueObject will be created using the createValueObject() method.
      */
-    public Producto getObject(Connection conn, int ID_PRODUCTO) throws NotFoundException, SQLException {
+    public Factura getObject(Connection conn, int ID_FACTURA) throws NotFoundException, SQLException {
 
-          Producto valueObject = createValueObject();
-          valueObject.setID_PRODUCTO(ID_PRODUCTO);
+          Factura valueObject = createValueObject();
+          valueObject.setID_FACTURA(ID_FACTURA);
           load(conn, valueObject);
           return valueObject;
     }
@@ -82,14 +82,14 @@ public class ProductoDao {
      * @param valueObject  This parameter contains the class instance to be loaded.
      *                     Primary-key field must be set for this to work properly.
      */
-    public void load(Connection conn, Producto valueObject) throws NotFoundException, SQLException {
+    public void load(Connection conn, Factura valueObject) throws NotFoundException, SQLException {
 
-          String sql = "SELECT * FROM PRODUCTO WHERE (ID_PRODUCTO = ? ) "; 
+          String sql = "SELECT * FROM FACTURA WHERE (ID_FACTURA = ? ) "; 
           PreparedStatement stmt = null;
 
           try {
                stmt = conn.prepareStatement(sql);
-               stmt.setInt(1, valueObject.getID_PRODUCTO()); 
+               stmt.setInt(1, valueObject.getID_FACTURA()); 
 
                singleQuery(conn, stmt, valueObject);
 
@@ -111,7 +111,7 @@ public class ProductoDao {
      */
     public List loadAll(Connection conn) throws SQLException {
 
-          String sql = "SELECT * FROM PRODUCTO ORDER BY ID_PRODUCTO ASC ";
+          String sql = "SELECT * FROM FACTURA ORDER BY ID_FACTURA ASC ";
           List searchResults = listQuery(conn, conn.prepareStatement(sql));
 
           return searchResults;
@@ -132,29 +132,26 @@ public class ProductoDao {
      *                     If automatic surrogate-keys are not used the Primary-key 
      *                     field must be set for this to work properly.
      */
-    public synchronized void create(Connection conn, Producto valueObject) throws SQLException {
+    public synchronized void create(Connection conn, Factura valueObject) throws SQLException {
 
           String sql = "";
           PreparedStatement stmt = null;
           ResultSet result = null;
 
           try {
-               sql = "INSERT INTO PRODUCTO ( ID_PRODUCTO, SUBCATEGORIA, MARCA, "
-               + "MODELO, DESCRIPCION, SERIAL, "
-               + "CODIGO_BARRAS, VALOR, IMPUESTO, "
-               + "ANULADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+               sql = "INSERT INTO FACTURA ( ID_FACTURA, ID_PERSONA, ID_TIPO_FACTURA, "
+               + "ID_EMPRESA, NUMERO, FECHA, "
+               + "TOTAL, ANULADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
                stmt = conn.prepareStatement(sql);
 
-               stmt.setInt(1, valueObject.getID_PRODUCTO()); 
-               stmt.setInt(2, valueObject.getSUBCATEGORIA()); 
-               stmt.setInt(3, valueObject.getMARCA()); 
-               stmt.setString(4, valueObject.getMODELO()); 
-               stmt.setString(5, valueObject.getDESCRIPCION()); 
-               stmt.setString(6, valueObject.getSERIAL()); 
-               stmt.setString(7, valueObject.getCODIGO_BARRAS()); 
-               stmt.setDouble(8, valueObject.getVALOR()); 
-               stmt.setDouble(9, valueObject.getIMPUESTO()); 
-               stmt.setInt(10, valueObject.getANULADO()); 
+               stmt.setInt(1, valueObject.getID_FACTURA()); 
+               stmt.setInt(2, valueObject.getID_PERSONA()); 
+               stmt.setInt(3, valueObject.getID_TIPO_FACTURA()); 
+               stmt.setInt(4, valueObject.getID_EMPRESA()); 
+               stmt.setDouble(5, valueObject.getNUMERO()); 
+               stmt.setDate(6, valueObject.getFECHA()); 
+               stmt.setInt(7, valueObject.getTOTAL()); 
+               stmt.setInt(8, valueObject.getANULADO()); 
 
                int rowcount = databaseUpdate(conn, stmt);
                if (rowcount != 1) {
@@ -182,27 +179,25 @@ public class ProductoDao {
      * @param valueObject  This parameter contains the class instance to be saved.
      *                     Primary-key field must be set for this to work properly.
      */
-    public void save(Connection conn, Producto valueObject) 
+    public void save(Connection conn, Factura valueObject) 
           throws NotFoundException, SQLException {
 
-          String sql = "UPDATE PRODUCTO SET SUBCATEGORIA = ?, MARCA = ?, MODELO = ?, "
-               + "DESCRIPCION = ?, SERIAL = ?, CODIGO_BARRAS = ?, "
-               + "VALOR = ?, IMPUESTO = ?, ANULADO = ? WHERE (ID_PRODUCTO = ? ) ";
+          String sql = "UPDATE FACTURA SET ID_PERSONA = ?, ID_TIPO_FACTURA = ?, ID_EMPRESA = ?, "
+               + "NUMERO = ?, FECHA = ?, TOTAL = ?, "
+               + "ANULADO = ? WHERE (ID_FACTURA = ? ) ";
           PreparedStatement stmt = null;
 
           try {
               stmt = conn.prepareStatement(sql);
-              stmt.setInt(1, valueObject.getSUBCATEGORIA()); 
-              stmt.setInt(2, valueObject.getMARCA()); 
-              stmt.setString(3, valueObject.getMODELO()); 
-              stmt.setString(4, valueObject.getDESCRIPCION()); 
-              stmt.setString(5, valueObject.getSERIAL()); 
-              stmt.setString(6, valueObject.getCODIGO_BARRAS()); 
-              stmt.setDouble(7, valueObject.getVALOR()); 
-              stmt.setDouble(8, valueObject.getIMPUESTO()); 
-              stmt.setInt(9, valueObject.getANULADO()); 
+              stmt.setInt(1, valueObject.getID_PERSONA()); 
+              stmt.setInt(2, valueObject.getID_TIPO_FACTURA()); 
+              stmt.setInt(3, valueObject.getID_EMPRESA()); 
+              stmt.setDouble(4, valueObject.getNUMERO()); 
+              stmt.setDate(5, valueObject.getFECHA()); 
+              stmt.setInt(6, valueObject.getTOTAL()); 
+              stmt.setInt(7, valueObject.getANULADO()); 
 
-              stmt.setInt(10, valueObject.getID_PRODUCTO()); 
+              stmt.setInt(8, valueObject.getID_FACTURA()); 
 
               int rowcount = databaseUpdate(conn, stmt);
               if (rowcount == 0) {
@@ -232,15 +227,15 @@ public class ProductoDao {
      * @param valueObject  This parameter contains the class instance to be deleted.
      *                     Primary-key field must be set for this to work properly.
      */
-    public void delete(Connection conn, Producto valueObject) 
+    public void delete(Connection conn, Factura valueObject) 
           throws NotFoundException, SQLException {
 
-          String sql = "DELETE FROM PRODUCTO WHERE (ID_PRODUCTO = ? ) ";
+          String sql = "DELETE FROM FACTURA WHERE (ID_FACTURA = ? ) ";
           PreparedStatement stmt = null;
 
           try {
               stmt = conn.prepareStatement(sql);
-              stmt.setInt(1, valueObject.getID_PRODUCTO()); 
+              stmt.setInt(1, valueObject.getID_FACTURA()); 
 
               int rowcount = databaseUpdate(conn, stmt);
               if (rowcount == 0) {
@@ -271,7 +266,7 @@ public class ProductoDao {
      */
     public void deleteAll(Connection conn) throws SQLException {
 
-          String sql = "DELETE FROM PRODUCTO";
+          String sql = "DELETE FROM FACTURA";
           PreparedStatement stmt = null;
 
           try {
@@ -294,7 +289,7 @@ public class ProductoDao {
      */
     public int countAll(Connection conn) throws SQLException {
 
-          String sql = "SELECT count(*) FROM PRODUCTO";
+          String sql = "SELECT count(*) FROM FACTURA";
           PreparedStatement stmt = null;
           ResultSet result = null;
           int allRows = 0;
@@ -328,56 +323,46 @@ public class ProductoDao {
      * @param valueObject  This parameter contains the class instance where search will be based.
      *                     Primary-key field should not be set.
      */
-    public List searchMatching(Connection conn, Producto valueObject) throws SQLException {
+    public List searchMatching(Connection conn, Factura valueObject) throws SQLException {
 
           List searchResults;
 
           boolean first = true;
-          StringBuffer sql = new StringBuffer("SELECT * FROM PRODUCTO WHERE 1=1 ");
+          StringBuffer sql = new StringBuffer("SELECT * FROM FACTURA WHERE 1=1 ");
 
-          if (valueObject.getID_PRODUCTO() != 0) {
+          if (valueObject.getID_FACTURA() != 0) {
               if (first) { first = false; }
-              sql.append("AND ID_PRODUCTO = ").append(valueObject.getID_PRODUCTO()).append(" ");
+              sql.append("AND ID_FACTURA = ").append(valueObject.getID_FACTURA()).append(" ");
           }
 
-          if (valueObject.getSUBCATEGORIA() != 0) {
+          if (valueObject.getID_PERSONA() != 0) {
               if (first) { first = false; }
-              sql.append("AND SUBCATEGORIA = ").append(valueObject.getSUBCATEGORIA()).append(" ");
+              sql.append("AND ID_PERSONA = ").append(valueObject.getID_PERSONA()).append(" ");
           }
 
-          if (valueObject.getMARCA() != 0) {
+          if (valueObject.getID_TIPO_FACTURA() != 0) {
               if (first) { first = false; }
-              sql.append("AND MARCA = ").append(valueObject.getMARCA()).append(" ");
+              sql.append("AND ID_TIPO_FACTURA = ").append(valueObject.getID_TIPO_FACTURA()).append(" ");
           }
 
-          if (valueObject.getMODELO() != null) {
+          if (valueObject.getID_EMPRESA() != 0) {
               if (first) { first = false; }
-              sql.append("AND MODELO LIKE '").append(valueObject.getMODELO()).append("%' ");
+              sql.append("AND ID_EMPRESA = ").append(valueObject.getID_EMPRESA()).append(" ");
           }
 
-          if (valueObject.getDESCRIPCION() != null) {
+          if (valueObject.getNUMERO() != 0) {
               if (first) { first = false; }
-              sql.append("AND DESCRIPCION LIKE '").append(valueObject.getDESCRIPCION()).append("%' ");
+              sql.append("AND NUMERO = ").append(valueObject.getNUMERO()).append(" ");
           }
 
-          if (valueObject.getSERIAL() != null) {
+          if (valueObject.getFECHA() != null) {
               if (first) { first = false; }
-              sql.append("AND SERIAL LIKE '").append(valueObject.getSERIAL()).append("%' ");
+              sql.append("AND FECHA = '").append(valueObject.getFECHA()).append("' ");
           }
 
-          if (valueObject.getCODIGO_BARRAS() != null) {
+          if (valueObject.getTOTAL() != 0) {
               if (first) { first = false; }
-              sql.append("AND CODIGO_BARRAS LIKE '").append(valueObject.getCODIGO_BARRAS()).append("%' ");
-          }
-
-          if (valueObject.getVALOR() != 0) {
-              if (first) { first = false; }
-              sql.append("AND VALOR = ").append(valueObject.getVALOR()).append(" ");
-          }
-
-          if (valueObject.getIMPUESTO() != 0) {
-              if (first) { first = false; }
-              sql.append("AND IMPUESTO = ").append(valueObject.getIMPUESTO()).append(" ");
+              sql.append("AND TOTAL = ").append(valueObject.getTOTAL()).append(" ");
           }
 
           if (valueObject.getANULADO() != 0) {
@@ -386,7 +371,7 @@ public class ProductoDao {
           }
 
 
-          sql.append("ORDER BY ID_PRODUCTO ASC ");
+          sql.append("ORDER BY ID_FACTURA ASC ");
 
           // Prevent accidential full table results.
           // Use loadAll if all rows must be returned.
@@ -435,7 +420,7 @@ public class ProductoDao {
      * @param stmt         This parameter contains the SQL statement to be excuted.
      * @param valueObject  Class-instance where resulting data will be stored.
      */
-    protected void singleQuery(Connection conn, PreparedStatement stmt, Producto valueObject) 
+    protected void singleQuery(Connection conn, PreparedStatement stmt, Factura valueObject) 
           throws NotFoundException, SQLException {
 
           ResultSet result = null;
@@ -445,20 +430,18 @@ public class ProductoDao {
 
               if (result.next()) {
 
-                   valueObject.setID_PRODUCTO(result.getInt("ID_PRODUCTO")); 
-                   valueObject.setSUBCATEGORIA(result.getInt("SUBCATEGORIA")); 
-                   valueObject.setMARCA(result.getInt("MARCA")); 
-                   valueObject.setMODELO(result.getString("MODELO")); 
-                   valueObject.setDESCRIPCION(result.getString("DESCRIPCION")); 
-                   valueObject.setSERIAL(result.getString("SERIAL")); 
-                   valueObject.setCODIGO_BARRAS(result.getString("CODIGO_BARRAS")); 
-                   valueObject.setVALOR(result.getDouble("VALOR")); 
-                   valueObject.setIMPUESTO(result.getDouble("IMPUESTO")); 
+                   valueObject.setID_FACTURA(result.getInt("ID_FACTURA")); 
+                   valueObject.setID_PERSONA(result.getInt("ID_PERSONA")); 
+                   valueObject.setID_TIPO_FACTURA(result.getInt("ID_TIPO_FACTURA")); 
+                   valueObject.setID_EMPRESA(result.getInt("ID_EMPRESA")); 
+                   valueObject.setNUMERO(result.getDouble("NUMERO")); 
+                   valueObject.setFECHA(result.getDate("FECHA")); 
+                   valueObject.setTOTAL(result.getInt("TOTAL")); 
                    valueObject.setANULADO(result.getInt("ANULADO")); 
 
               } else {
-                    //System.out.println("Producto Object Not Found!");
-                    throw new NotFoundException("Producto Object Not Found!");
+                    //System.out.println("Factura Object Not Found!");
+                    throw new NotFoundException("Factura Object Not Found!");
               }
           } finally {
               if (result != null)
@@ -486,17 +469,15 @@ public class ProductoDao {
               result = stmt.executeQuery();
 
               while (result.next()) {
-                   Producto temp = createValueObject();
+                   Factura temp = createValueObject();
 
-                   temp.setID_PRODUCTO(result.getInt("ID_PRODUCTO")); 
-                   temp.setSUBCATEGORIA(result.getInt("SUBCATEGORIA")); 
-                   temp.setMARCA(result.getInt("MARCA")); 
-                   temp.setMODELO(result.getString("MODELO")); 
-                   temp.setDESCRIPCION(result.getString("DESCRIPCION")); 
-                   temp.setSERIAL(result.getString("SERIAL")); 
-                   temp.setCODIGO_BARRAS(result.getString("CODIGO_BARRAS")); 
-                   temp.setVALOR(result.getDouble("VALOR")); 
-                   temp.setIMPUESTO(result.getDouble("IMPUESTO")); 
+                   temp.setID_FACTURA(result.getInt("ID_FACTURA")); 
+                   temp.setID_PERSONA(result.getInt("ID_PERSONA")); 
+                   temp.setID_TIPO_FACTURA(result.getInt("ID_TIPO_FACTURA")); 
+                   temp.setID_EMPRESA(result.getInt("ID_EMPRESA")); 
+                   temp.setNUMERO(result.getDouble("NUMERO")); 
+                   temp.setFECHA(result.getDate("FECHA")); 
+                   temp.setTOTAL(result.getInt("TOTAL")); 
                    temp.setANULADO(result.getInt("ANULADO")); 
 
                    searchResults.add(temp);
@@ -514,4 +495,3 @@ public class ProductoDao {
 
 
 }
-

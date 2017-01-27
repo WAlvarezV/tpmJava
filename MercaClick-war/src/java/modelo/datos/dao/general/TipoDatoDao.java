@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo.datos.dao.inventario;
+package modelo.datos.dao.general;
 
 import java.sql.*;
 import java.util.*;
 import java.math.*;
+import modelo.datos.objetos.general.TipoDato;
 import modelo.datos.dao.NotFoundException;
-import modelo.datos.objetos.inventario.Producto;
 
 
  /**
-  * Producto Data Access Object (DAO).
+  * TipoDato Data Access Object (DAO).
   * This class contains all database handling that is needed to 
-  * permanently store and retrieve Producto object instances. 
+  * permanently store and retrieve TipoDato object instances. 
   */
 
  /**
@@ -38,7 +38,7 @@ import modelo.datos.objetos.inventario.Producto;
 
 
 
-public class ProductoDao {
+public class TipoDatoDao {
 
 
 
@@ -50,8 +50,8 @@ public class ProductoDao {
      * NOTE: If you extend the valueObject class, make sure to override the
      * clone() method in it!
      */
-    public Producto createValueObject() {
-          return new Producto();
+    public TipoDato createValueObject() {
+          return new TipoDato();
     }
 
 
@@ -61,10 +61,10 @@ public class ProductoDao {
      * for the real load-method which accepts the valueObject as a parameter. Returned
      * valueObject will be created using the createValueObject() method.
      */
-    public Producto getObject(Connection conn, int ID_PRODUCTO) throws NotFoundException, SQLException {
+    public TipoDato getObject(Connection conn, int ID_TIPO_DATO) throws NotFoundException, SQLException {
 
-          Producto valueObject = createValueObject();
-          valueObject.setID_PRODUCTO(ID_PRODUCTO);
+          TipoDato valueObject = createValueObject();
+          valueObject.setID_TIPO_DATO(ID_TIPO_DATO);
           load(conn, valueObject);
           return valueObject;
     }
@@ -82,14 +82,14 @@ public class ProductoDao {
      * @param valueObject  This parameter contains the class instance to be loaded.
      *                     Primary-key field must be set for this to work properly.
      */
-    public void load(Connection conn, Producto valueObject) throws NotFoundException, SQLException {
+    public void load(Connection conn, TipoDato valueObject) throws NotFoundException, SQLException {
 
-          String sql = "SELECT * FROM PRODUCTO WHERE (ID_PRODUCTO = ? ) "; 
+          String sql = "SELECT * FROM TIPO_DATO WHERE (ID_TIPO_DATO = ? ) "; 
           PreparedStatement stmt = null;
 
           try {
                stmt = conn.prepareStatement(sql);
-               stmt.setInt(1, valueObject.getID_PRODUCTO()); 
+               stmt.setInt(1, valueObject.getID_TIPO_DATO()); 
 
                singleQuery(conn, stmt, valueObject);
 
@@ -111,7 +111,7 @@ public class ProductoDao {
      */
     public List loadAll(Connection conn) throws SQLException {
 
-          String sql = "SELECT * FROM PRODUCTO ORDER BY ID_PRODUCTO ASC ";
+          String sql = "SELECT * FROM TIPO_DATO ORDER BY ID_TIPO_DATO ASC ";
           List searchResults = listQuery(conn, conn.prepareStatement(sql));
 
           return searchResults;
@@ -132,29 +132,23 @@ public class ProductoDao {
      *                     If automatic surrogate-keys are not used the Primary-key 
      *                     field must be set for this to work properly.
      */
-    public synchronized void create(Connection conn, Producto valueObject) throws SQLException {
+    public synchronized void create(Connection conn, TipoDato valueObject) throws SQLException {
 
           String sql = "";
           PreparedStatement stmt = null;
           ResultSet result = null;
 
           try {
-               sql = "INSERT INTO PRODUCTO ( ID_PRODUCTO, SUBCATEGORIA, MARCA, "
-               + "MODELO, DESCRIPCION, SERIAL, "
-               + "CODIGO_BARRAS, VALOR, IMPUESTO, "
-               + "ANULADO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+               sql = "INSERT INTO TIPO_DATO ( ID_TIPO_DATO, ID_TIPO_DATO_PPAL, TIPO, "
+               + "CODIGO, DESCRIPCION, ANULADO) VALUES (?, ?, ?, ?, ?, ?) ";
                stmt = conn.prepareStatement(sql);
 
-               stmt.setInt(1, valueObject.getID_PRODUCTO()); 
-               stmt.setInt(2, valueObject.getSUBCATEGORIA()); 
-               stmt.setInt(3, valueObject.getMARCA()); 
-               stmt.setString(4, valueObject.getMODELO()); 
+               stmt.setInt(1, valueObject.getID_TIPO_DATO()); 
+               stmt.setInt(2, valueObject.getID_TIPO_DATO_PPAL()); 
+               stmt.setString(3, valueObject.getTIPO()); 
+               stmt.setString(4, valueObject.getCODIGO()); 
                stmt.setString(5, valueObject.getDESCRIPCION()); 
-               stmt.setString(6, valueObject.getSERIAL()); 
-               stmt.setString(7, valueObject.getCODIGO_BARRAS()); 
-               stmt.setDouble(8, valueObject.getVALOR()); 
-               stmt.setDouble(9, valueObject.getIMPUESTO()); 
-               stmt.setInt(10, valueObject.getANULADO()); 
+               stmt.setInt(6, valueObject.getANULADO()); 
 
                int rowcount = databaseUpdate(conn, stmt);
                if (rowcount != 1) {
@@ -182,27 +176,22 @@ public class ProductoDao {
      * @param valueObject  This parameter contains the class instance to be saved.
      *                     Primary-key field must be set for this to work properly.
      */
-    public void save(Connection conn, Producto valueObject) 
+    public void save(Connection conn, TipoDato valueObject) 
           throws NotFoundException, SQLException {
 
-          String sql = "UPDATE PRODUCTO SET SUBCATEGORIA = ?, MARCA = ?, MODELO = ?, "
-               + "DESCRIPCION = ?, SERIAL = ?, CODIGO_BARRAS = ?, "
-               + "VALOR = ?, IMPUESTO = ?, ANULADO = ? WHERE (ID_PRODUCTO = ? ) ";
+          String sql = "UPDATE TIPO_DATO SET ID_TIPO_DATO_PPAL = ?, TIPO = ?, CODIGO = ?, "
+               + "DESCRIPCION = ?, ANULADO = ? WHERE (ID_TIPO_DATO = ? ) ";
           PreparedStatement stmt = null;
 
           try {
               stmt = conn.prepareStatement(sql);
-              stmt.setInt(1, valueObject.getSUBCATEGORIA()); 
-              stmt.setInt(2, valueObject.getMARCA()); 
-              stmt.setString(3, valueObject.getMODELO()); 
+              stmt.setInt(1, valueObject.getID_TIPO_DATO_PPAL()); 
+              stmt.setString(2, valueObject.getTIPO()); 
+              stmt.setString(3, valueObject.getCODIGO()); 
               stmt.setString(4, valueObject.getDESCRIPCION()); 
-              stmt.setString(5, valueObject.getSERIAL()); 
-              stmt.setString(6, valueObject.getCODIGO_BARRAS()); 
-              stmt.setDouble(7, valueObject.getVALOR()); 
-              stmt.setDouble(8, valueObject.getIMPUESTO()); 
-              stmt.setInt(9, valueObject.getANULADO()); 
+              stmt.setInt(5, valueObject.getANULADO()); 
 
-              stmt.setInt(10, valueObject.getID_PRODUCTO()); 
+              stmt.setInt(6, valueObject.getID_TIPO_DATO()); 
 
               int rowcount = databaseUpdate(conn, stmt);
               if (rowcount == 0) {
@@ -232,15 +221,15 @@ public class ProductoDao {
      * @param valueObject  This parameter contains the class instance to be deleted.
      *                     Primary-key field must be set for this to work properly.
      */
-    public void delete(Connection conn, Producto valueObject) 
+    public void delete(Connection conn, TipoDato valueObject) 
           throws NotFoundException, SQLException {
 
-          String sql = "DELETE FROM PRODUCTO WHERE (ID_PRODUCTO = ? ) ";
+          String sql = "DELETE FROM TIPO_DATO WHERE (ID_TIPO_DATO = ? ) ";
           PreparedStatement stmt = null;
 
           try {
               stmt = conn.prepareStatement(sql);
-              stmt.setInt(1, valueObject.getID_PRODUCTO()); 
+              stmt.setInt(1, valueObject.getID_TIPO_DATO()); 
 
               int rowcount = databaseUpdate(conn, stmt);
               if (rowcount == 0) {
@@ -271,7 +260,7 @@ public class ProductoDao {
      */
     public void deleteAll(Connection conn) throws SQLException {
 
-          String sql = "DELETE FROM PRODUCTO";
+          String sql = "DELETE FROM TIPO_DATO";
           PreparedStatement stmt = null;
 
           try {
@@ -294,7 +283,7 @@ public class ProductoDao {
      */
     public int countAll(Connection conn) throws SQLException {
 
-          String sql = "SELECT count(*) FROM PRODUCTO";
+          String sql = "SELECT count(*) FROM TIPO_DATO";
           PreparedStatement stmt = null;
           ResultSet result = null;
           int allRows = 0;
@@ -328,56 +317,36 @@ public class ProductoDao {
      * @param valueObject  This parameter contains the class instance where search will be based.
      *                     Primary-key field should not be set.
      */
-    public List searchMatching(Connection conn, Producto valueObject) throws SQLException {
+    public List searchMatching(Connection conn, TipoDato valueObject) throws SQLException {
 
           List searchResults;
 
           boolean first = true;
-          StringBuffer sql = new StringBuffer("SELECT * FROM PRODUCTO WHERE 1=1 ");
+          StringBuffer sql = new StringBuffer("SELECT * FROM TIPO_DATO WHERE 1=1 ");
 
-          if (valueObject.getID_PRODUCTO() != 0) {
+          if (valueObject.getID_TIPO_DATO() != 0) {
               if (first) { first = false; }
-              sql.append("AND ID_PRODUCTO = ").append(valueObject.getID_PRODUCTO()).append(" ");
+              sql.append("AND ID_TIPO_DATO = ").append(valueObject.getID_TIPO_DATO()).append(" ");
           }
 
-          if (valueObject.getSUBCATEGORIA() != 0) {
+          if (valueObject.getID_TIPO_DATO_PPAL() != 0) {
               if (first) { first = false; }
-              sql.append("AND SUBCATEGORIA = ").append(valueObject.getSUBCATEGORIA()).append(" ");
+              sql.append("AND ID_TIPO_DATO_PPAL = ").append(valueObject.getID_TIPO_DATO_PPAL()).append(" ");
           }
 
-          if (valueObject.getMARCA() != 0) {
+          if (valueObject.getTIPO() != null) {
               if (first) { first = false; }
-              sql.append("AND MARCA = ").append(valueObject.getMARCA()).append(" ");
+              sql.append("AND TIPO LIKE '").append(valueObject.getTIPO()).append("%' ");
           }
 
-          if (valueObject.getMODELO() != null) {
+          if (valueObject.getCODIGO() != null) {
               if (first) { first = false; }
-              sql.append("AND MODELO LIKE '").append(valueObject.getMODELO()).append("%' ");
+              sql.append("AND CODIGO LIKE '").append(valueObject.getCODIGO()).append("%' ");
           }
 
           if (valueObject.getDESCRIPCION() != null) {
               if (first) { first = false; }
               sql.append("AND DESCRIPCION LIKE '").append(valueObject.getDESCRIPCION()).append("%' ");
-          }
-
-          if (valueObject.getSERIAL() != null) {
-              if (first) { first = false; }
-              sql.append("AND SERIAL LIKE '").append(valueObject.getSERIAL()).append("%' ");
-          }
-
-          if (valueObject.getCODIGO_BARRAS() != null) {
-              if (first) { first = false; }
-              sql.append("AND CODIGO_BARRAS LIKE '").append(valueObject.getCODIGO_BARRAS()).append("%' ");
-          }
-
-          if (valueObject.getVALOR() != 0) {
-              if (first) { first = false; }
-              sql.append("AND VALOR = ").append(valueObject.getVALOR()).append(" ");
-          }
-
-          if (valueObject.getIMPUESTO() != 0) {
-              if (first) { first = false; }
-              sql.append("AND IMPUESTO = ").append(valueObject.getIMPUESTO()).append(" ");
           }
 
           if (valueObject.getANULADO() != 0) {
@@ -386,7 +355,7 @@ public class ProductoDao {
           }
 
 
-          sql.append("ORDER BY ID_PRODUCTO ASC ");
+          sql.append("ORDER BY ID_TIPO_DATO ASC ");
 
           // Prevent accidential full table results.
           // Use loadAll if all rows must be returned.
@@ -435,7 +404,7 @@ public class ProductoDao {
      * @param stmt         This parameter contains the SQL statement to be excuted.
      * @param valueObject  Class-instance where resulting data will be stored.
      */
-    protected void singleQuery(Connection conn, PreparedStatement stmt, Producto valueObject) 
+    protected void singleQuery(Connection conn, PreparedStatement stmt, TipoDato valueObject) 
           throws NotFoundException, SQLException {
 
           ResultSet result = null;
@@ -445,20 +414,16 @@ public class ProductoDao {
 
               if (result.next()) {
 
-                   valueObject.setID_PRODUCTO(result.getInt("ID_PRODUCTO")); 
-                   valueObject.setSUBCATEGORIA(result.getInt("SUBCATEGORIA")); 
-                   valueObject.setMARCA(result.getInt("MARCA")); 
-                   valueObject.setMODELO(result.getString("MODELO")); 
+                   valueObject.setID_TIPO_DATO(result.getInt("ID_TIPO_DATO")); 
+                   valueObject.setID_TIPO_DATO_PPAL(result.getInt("ID_TIPO_DATO_PPAL")); 
+                   valueObject.setTIPO(result.getString("TIPO")); 
+                   valueObject.setCODIGO(result.getString("CODIGO")); 
                    valueObject.setDESCRIPCION(result.getString("DESCRIPCION")); 
-                   valueObject.setSERIAL(result.getString("SERIAL")); 
-                   valueObject.setCODIGO_BARRAS(result.getString("CODIGO_BARRAS")); 
-                   valueObject.setVALOR(result.getDouble("VALOR")); 
-                   valueObject.setIMPUESTO(result.getDouble("IMPUESTO")); 
                    valueObject.setANULADO(result.getInt("ANULADO")); 
 
               } else {
-                    //System.out.println("Producto Object Not Found!");
-                    throw new NotFoundException("Producto Object Not Found!");
+                    //System.out.println("TipoDato Object Not Found!");
+                    throw new NotFoundException("TipoDato Object Not Found!");
               }
           } finally {
               if (result != null)
@@ -486,17 +451,13 @@ public class ProductoDao {
               result = stmt.executeQuery();
 
               while (result.next()) {
-                   Producto temp = createValueObject();
+                   TipoDato temp = createValueObject();
 
-                   temp.setID_PRODUCTO(result.getInt("ID_PRODUCTO")); 
-                   temp.setSUBCATEGORIA(result.getInt("SUBCATEGORIA")); 
-                   temp.setMARCA(result.getInt("MARCA")); 
-                   temp.setMODELO(result.getString("MODELO")); 
+                   temp.setID_TIPO_DATO(result.getInt("ID_TIPO_DATO")); 
+                   temp.setID_TIPO_DATO_PPAL(result.getInt("ID_TIPO_DATO_PPAL")); 
+                   temp.setTIPO(result.getString("TIPO")); 
+                   temp.setCODIGO(result.getString("CODIGO")); 
                    temp.setDESCRIPCION(result.getString("DESCRIPCION")); 
-                   temp.setSERIAL(result.getString("SERIAL")); 
-                   temp.setCODIGO_BARRAS(result.getString("CODIGO_BARRAS")); 
-                   temp.setVALOR(result.getDouble("VALOR")); 
-                   temp.setIMPUESTO(result.getDouble("IMPUESTO")); 
                    temp.setANULADO(result.getInt("ANULADO")); 
 
                    searchResults.add(temp);
@@ -514,4 +475,3 @@ public class ProductoDao {
 
 
 }
-
