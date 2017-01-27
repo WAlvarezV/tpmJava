@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo.datos.objetos.inventario;
+package modelo.datos.objetos.general;
 
 import java.io.*;
 import java.sql.*;
@@ -11,8 +11,8 @@ import java.util.*;
 import java.math.*;
 
  /**
-  * Producto Value Object.
-  * This class is value object representing database table PRODUCTO
+  * TipoDato Value Object.
+  * This class is value object representing database table TIPO_DATO
   * This class is intented to be used together with associated Dao object.
   */
 
@@ -36,21 +36,17 @@ import java.math.*;
 
 
 
-public class Producto implements Cloneable, Serializable {
+public class TipoDato implements Cloneable, Serializable {
 
     /** 
      * Persistent Instance variables. This data is directly 
      * mapped to the columns of database table.
      */
-    private int ID_PRODUCTO;
-    private int SUBCATEGORIA;
-    private int MARCA;
-    private String MODELO;
+    private int ID_TIPO_DATO;
+    private int ID_TIPO_DATO_PPAL;
+    private String TIPO;
+    private String CODIGO;
     private String DESCRIPCION;
-    private String SERIAL;
-    private String CODIGO_BARRAS;
-    private double VALOR;
-    private double IMPUESTO;
     private int ANULADO;
 
 
@@ -62,13 +58,13 @@ public class Producto implements Cloneable, Serializable {
      * argument, which is the primary key of the corresponding table.
      */
 
-    public Producto () {
+    public TipoDato () {
 
     }
 
-    public Producto (int ID_PRODUCTOIn) {
+    public TipoDato (int ID_TIPO_DATOIn) {
 
-          this.ID_PRODUCTO = ID_PRODUCTOIn;
+          this.ID_TIPO_DATO = ID_TIPO_DATOIn;
 
     }
 
@@ -79,32 +75,32 @@ public class Producto implements Cloneable, Serializable {
      * so these might require some manual additions.
      */
 
-    public int getID_PRODUCTO() {
-          return this.ID_PRODUCTO;
+    public int getID_TIPO_DATO() {
+          return this.ID_TIPO_DATO;
     }
-    public void setID_PRODUCTO(int ID_PRODUCTOIn) {
-          this.ID_PRODUCTO = ID_PRODUCTOIn;
-    }
-
-    public int getSUBCATEGORIA() {
-          return this.SUBCATEGORIA;
-    }
-    public void setSUBCATEGORIA(int SUBCATEGORIAIn) {
-          this.SUBCATEGORIA = SUBCATEGORIAIn;
+    public void setID_TIPO_DATO(int ID_TIPO_DATOIn) {
+          this.ID_TIPO_DATO = ID_TIPO_DATOIn;
     }
 
-    public int getMARCA() {
-          return this.MARCA;
+    public int getID_TIPO_DATO_PPAL() {
+          return this.ID_TIPO_DATO_PPAL;
     }
-    public void setMARCA(int MARCAIn) {
-          this.MARCA = MARCAIn;
+    public void setID_TIPO_DATO_PPAL(int ID_TIPO_DATO_PPALIn) {
+          this.ID_TIPO_DATO_PPAL = ID_TIPO_DATO_PPALIn;
     }
 
-    public String getMODELO() {
-          return this.MODELO;
+    public String getTIPO() {
+          return this.TIPO;
     }
-    public void setMODELO(String MODELOIn) {
-          this.MODELO = MODELOIn;
+    public void setTIPO(String TIPOIn) {
+          this.TIPO = TIPOIn;
+    }
+
+    public String getCODIGO() {
+          return this.CODIGO;
+    }
+    public void setCODIGO(String CODIGOIn) {
+          this.CODIGO = CODIGOIn;
     }
 
     public String getDESCRIPCION() {
@@ -112,34 +108,6 @@ public class Producto implements Cloneable, Serializable {
     }
     public void setDESCRIPCION(String DESCRIPCIONIn) {
           this.DESCRIPCION = DESCRIPCIONIn;
-    }
-
-    public String getSERIAL() {
-          return this.SERIAL;
-    }
-    public void setSERIAL(String SERIALIn) {
-          this.SERIAL = SERIALIn;
-    }
-
-    public String getCODIGO_BARRAS() {
-          return this.CODIGO_BARRAS;
-    }
-    public void setCODIGO_BARRAS(String CODIGO_BARRASIn) {
-          this.CODIGO_BARRAS = CODIGO_BARRASIn;
-    }
-
-    public double getVALOR() {
-          return this.VALOR;
-    }
-    public void setVALOR(double VALORIn) {
-          this.VALOR = VALORIn;
-    }
-
-    public double getIMPUESTO() {
-          return this.IMPUESTO;
-    }
-    public void setIMPUESTO(double IMPUESTOIn) {
-          this.IMPUESTO = IMPUESTOIn;
     }
 
     public int getANULADO() {
@@ -159,75 +127,52 @@ public class Producto implements Cloneable, Serializable {
      * individual set-methods.
      */
 
-    public void setAll(int ID_PRODUCTOIn,
-          int SUBCATEGORIAIn,
-          int MARCAIn,
-          String MODELOIn,
+    public void setAll(int ID_TIPO_DATOIn,
+          int ID_TIPO_DATO_PPALIn,
+          String TIPOIn,
+          String CODIGOIn,
           String DESCRIPCIONIn,
-          String SERIALIn,
-          String CODIGO_BARRASIn,
-          double VALORIn,
-          double IMPUESTOIn,
           int ANULADOIn) {
-          this.ID_PRODUCTO = ID_PRODUCTOIn;
-          this.SUBCATEGORIA = SUBCATEGORIAIn;
-          this.MARCA = MARCAIn;
-          this.MODELO = MODELOIn;
+          this.ID_TIPO_DATO = ID_TIPO_DATOIn;
+          this.ID_TIPO_DATO_PPAL = ID_TIPO_DATO_PPALIn;
+          this.TIPO = TIPOIn;
+          this.CODIGO = CODIGOIn;
           this.DESCRIPCION = DESCRIPCIONIn;
-          this.SERIAL = SERIALIn;
-          this.CODIGO_BARRAS = CODIGO_BARRASIn;
-          this.VALOR = VALORIn;
-          this.IMPUESTO = IMPUESTOIn;
           this.ANULADO = ANULADOIn;
     }
 
 
     /** 
-     * hasEqualMapping-method will compare two Producto instances
+     * hasEqualMapping-method will compare two TipoDato instances
      * and return true if they contain same values in all persistent instance 
      * variables. If hasEqualMapping returns true, it does not mean the objects
      * are the same instance. However it does mean that in that moment, they 
      * are mapped to the same row in database.
      */
-    public boolean hasEqualMapping(Producto valueObject) {
+    public boolean hasEqualMapping(TipoDato valueObject) {
 
-          if (valueObject.getID_PRODUCTO() != this.ID_PRODUCTO) {
+          if (valueObject.getID_TIPO_DATO() != this.ID_TIPO_DATO) {
                     return(false);
           }
-          if (valueObject.getSUBCATEGORIA() != this.SUBCATEGORIA) {
+          if (valueObject.getID_TIPO_DATO_PPAL() != this.ID_TIPO_DATO_PPAL) {
                     return(false);
           }
-          if (valueObject.getMARCA() != this.MARCA) {
-                    return(false);
-          }
-          if (this.MODELO == null) {
-                    if (valueObject.getMODELO() != null)
+          if (this.TIPO == null) {
+                    if (valueObject.getTIPO() != null)
                            return(false);
-          } else if (!this.MODELO.equals(valueObject.getMODELO())) {
+          } else if (!this.TIPO.equals(valueObject.getTIPO())) {
+                    return(false);
+          }
+          if (this.CODIGO == null) {
+                    if (valueObject.getCODIGO() != null)
+                           return(false);
+          } else if (!this.CODIGO.equals(valueObject.getCODIGO())) {
                     return(false);
           }
           if (this.DESCRIPCION == null) {
                     if (valueObject.getDESCRIPCION() != null)
                            return(false);
           } else if (!this.DESCRIPCION.equals(valueObject.getDESCRIPCION())) {
-                    return(false);
-          }
-          if (this.SERIAL == null) {
-                    if (valueObject.getSERIAL() != null)
-                           return(false);
-          } else if (!this.SERIAL.equals(valueObject.getSERIAL())) {
-                    return(false);
-          }
-          if (this.CODIGO_BARRAS == null) {
-                    if (valueObject.getCODIGO_BARRAS() != null)
-                           return(false);
-          } else if (!this.CODIGO_BARRAS.equals(valueObject.getCODIGO_BARRAS())) {
-                    return(false);
-          }
-          if (valueObject.getVALOR() != this.VALOR) {
-                    return(false);
-          }
-          if (valueObject.getIMPUESTO() != this.IMPUESTO) {
                     return(false);
           }
           if (valueObject.getANULADO() != this.ANULADO) {
@@ -246,17 +191,13 @@ public class Producto implements Cloneable, Serializable {
      */
     public String toString() {
         StringBuffer out = new StringBuffer(this.getDaogenVersion());
-        out.append("\nclass Producto, mapping to table PRODUCTO\n");
+        out.append("\nclass TipoDato, mapping to table TIPO_DATO\n");
         out.append("Persistent attributes: \n"); 
-        out.append("ID_PRODUCTO = " + this.ID_PRODUCTO + "\n"); 
-        out.append("SUBCATEGORIA = " + this.SUBCATEGORIA + "\n"); 
-        out.append("MARCA = " + this.MARCA + "\n"); 
-        out.append("MODELO = " + this.MODELO + "\n"); 
+        out.append("ID_TIPO_DATO = " + this.ID_TIPO_DATO + "\n"); 
+        out.append("ID_TIPO_DATO_PPAL = " + this.ID_TIPO_DATO_PPAL + "\n"); 
+        out.append("TIPO = " + this.TIPO + "\n"); 
+        out.append("CODIGO = " + this.CODIGO + "\n"); 
         out.append("DESCRIPCION = " + this.DESCRIPCION + "\n"); 
-        out.append("SERIAL = " + this.SERIAL + "\n"); 
-        out.append("CODIGO_BARRAS = " + this.CODIGO_BARRAS + "\n"); 
-        out.append("VALOR = " + this.VALOR + "\n"); 
-        out.append("IMPUESTO = " + this.IMPUESTO + "\n"); 
         out.append("ANULADO = " + this.ANULADO + "\n"); 
         return out.toString();
     }
@@ -269,21 +210,16 @@ public class Producto implements Cloneable, Serializable {
      * will also have all its attributes cloned.
      */
     public Object clone() {
-        Producto cloned = new Producto();
+        TipoDato cloned = new TipoDato();
 
-        cloned.setID_PRODUCTO(this.ID_PRODUCTO); 
-        cloned.setSUBCATEGORIA(this.SUBCATEGORIA); 
-        cloned.setMARCA(this.MARCA); 
-        if (this.MODELO != null)
-             cloned.setMODELO(new String(this.MODELO)); 
+        cloned.setID_TIPO_DATO(this.ID_TIPO_DATO); 
+        cloned.setID_TIPO_DATO_PPAL(this.ID_TIPO_DATO_PPAL); 
+        if (this.TIPO != null)
+             cloned.setTIPO(new String(this.TIPO)); 
+        if (this.CODIGO != null)
+             cloned.setCODIGO(new String(this.CODIGO)); 
         if (this.DESCRIPCION != null)
              cloned.setDESCRIPCION(new String(this.DESCRIPCION)); 
-        if (this.SERIAL != null)
-             cloned.setSERIAL(new String(this.SERIAL)); 
-        if (this.CODIGO_BARRAS != null)
-             cloned.setCODIGO_BARRAS(new String(this.CODIGO_BARRAS)); 
-        cloned.setVALOR(this.VALOR); 
-        cloned.setIMPUESTO(this.IMPUESTO); 
         cloned.setANULADO(this.ANULADO); 
         return cloned;
     }
@@ -299,3 +235,5 @@ public class Producto implements Cloneable, Serializable {
     }
 
 }
+
+
