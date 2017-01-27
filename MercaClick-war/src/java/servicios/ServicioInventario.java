@@ -5,7 +5,6 @@
  */
 package servicios;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
